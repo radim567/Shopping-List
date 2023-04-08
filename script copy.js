@@ -17,8 +17,8 @@ function onAddItemSubmit(e) {
 
   const newItem = itemInput.value;
 
-  // Validate input
-  if (newItem.trim() === '') {
+  // Validate Input
+  if (newItem === '') {
     alert('Please add an item');
     return;
   }
@@ -32,7 +32,6 @@ function onAddItemSubmit(e) {
     itemToEdit.remove();
     isEditMode = false;
   } else {
-    // Check if item already exists
     if (checkIfItemExists(newItem)) {
       alert('That item already exists!');
       return;
@@ -108,7 +107,6 @@ function onClickItem(e) {
 
 function checkIfItemExists(item) {
   const itemsFromStorage = getItemsFromStorage();
-
   return itemsFromStorage.includes(item);
 }
 
@@ -120,8 +118,7 @@ function setItemToEdit(item) {
     .forEach((i) => i.classList.remove('edit-mode'));
 
   item.classList.add('edit-mode');
-  formBtn.innerHTML = '<i class="fa-solid fa-pen"></i>Update Item';
-
+  formBtn.innerHTML = '<i class="fa-solid fa-pen"></i>   Update Item';
   formBtn.style.backgroundColor = '#228B22';
   itemInput.value = item.textContent;
 }
@@ -130,7 +127,8 @@ function removeItem(item) {
   if (confirm('Are you sure?')) {
     // Remove item from DOM
     item.remove();
-    // Remove item from Storage
+
+    // Remove item from storage
     removeItemFromStorage(item.textContent);
 
     checkUI();
@@ -143,8 +141,7 @@ function removeItemFromStorage(item) {
   // Filter out item to be removed
   itemsFromStorage = itemsFromStorage.filter((i) => i !== item);
 
-  // Reset to localstorage
-
+  // Re-set to localstorage
   localStorage.setItem('items', JSON.stringify(itemsFromStorage));
 }
 
@@ -176,7 +173,9 @@ function filterItems(e) {
 
 function checkUI() {
   itemInput.value = '';
+
   const items = itemList.querySelectorAll('li');
+
   if (items.length === 0) {
     clearBtn.style.display = 'none';
     itemFilter.style.display = 'none';
@@ -187,13 +186,13 @@ function checkUI() {
 
   formBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Item';
   formBtn.style.backgroundColor = '#333';
+
   isEditMode = false;
 }
 
 // Initialize app
 function init() {
   // Event Listeners
-
   itemForm.addEventListener('submit', onAddItemSubmit);
   itemList.addEventListener('click', onClickItem);
   clearBtn.addEventListener('click', clearItems);
